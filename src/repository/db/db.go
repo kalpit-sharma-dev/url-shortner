@@ -40,7 +40,7 @@ func (file *FileImpl) CreateUrl(ctx context.Context, url, tinyUrl string) (urlRe
 	writer.Flush()
 	file.fileProvider.Seek(0, io.SeekStart)
 	urlResp.Url = url
-	urlResp.TinyUrl = tinyUrl
+	urlResp.TinyUrl = constants.PrefixUrl + tinyUrl
 	return urlResp, err
 }
 
