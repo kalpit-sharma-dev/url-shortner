@@ -25,4 +25,6 @@ RUN go get -d -v ./...
 
 CMD reflex -R "__debug_bin" -s -- sh -c "dlv debug --headless --continue --accept-multiclient --listen :40000 --api-version=2 --log ./src/"
 
+FROM dev as build
 
+RUN go build -ldflags -o url-shortner ./src/
