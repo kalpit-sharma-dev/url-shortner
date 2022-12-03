@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"net/http"
 
 	mux "github.com/gorilla/mux"
@@ -10,20 +11,24 @@ import (
 )
 
 func LoadRoute() {
-
+	log.Println("INFO : Loading Router")
 	router := mux.NewRouter().PathPrefix("/url-shortner-service/api").Subrouter()
 	router.Use(headerMiddleware)
 	registerAppRoutes(router)
+	log.Println("INFO : Router Loaded Successfully")
+	log.Println("INFO : Application is started Successfully")
 	http.ListenAndServe(":8080", router)
 }
 
 func registerAppRoutes(r *mux.Router) {
+	log.Println("INFO : Registering Router ")
 	urlRepo := db.NewFileRepository(db.GetFileProvider())
 	urlService := service.NewUrlService(urlRepo)
 	urlHandlers := handler.NewHandler(urlService)
 
 	//r.HandleFunc("/urls/{url}", urlHandlers.HandleGetUrl).Methods(http.MethodGet)
 	r.HandleFunc("/urls", urlHandlers.HandleCreateUrl).Methods(http.MethodPost)
+	log.Println("INFO : Router Registered Successfully")
 }
 
 func headerMiddleware(next http.Handler) http.Handler {
