@@ -1,5 +1,6 @@
 package constants
 
 const (
-	Delimeter = "|"
+	LetterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	PrefixUrl   = "tinyurl/"
 )

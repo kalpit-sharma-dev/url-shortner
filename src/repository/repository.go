@@ -7,6 +7,6 @@ import (
 )
 
 type FileRepository interface {
-	CreateUrl(ctx context.Context, req model.Request) (urlResp model.Response, err error)
+	CreateUrl(ctx context.Context, url, tinyUrl string) (urlResp model.Response, err error)
 	GetUrl(ctx context.Context, url string) (urlResp model.Response, err error)
 }

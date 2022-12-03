@@ -7,10 +7,9 @@ import (
 
 func GetFileProvider() (csvFile *os.File) {
 
-	//csvFile, err := os.Create("database.csv")
-	csvFile, err := os.OpenFile("../../database.csv", os.O_APPEND|os.O_CREATE|os.O_WRONLY|os.O_SYNC, 0644)
+	csvFile, err := os.OpenFile("../../rrt.csv", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatal("error creating csv file")
+		log.Fatal("error creating csv file", err)
 	}
 	//defer csvFile.Close()
 	return csvFile
