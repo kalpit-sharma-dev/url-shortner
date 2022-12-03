@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+	"github.com/kalpit-sharma-dev/url-shortner/src/errors"
 	"github.com/kalpit-sharma-dev/url-shortner/src/model"
 	"github.com/kalpit-sharma-dev/url-shortner/src/service"
 )
@@ -23,14 +25,16 @@ func NewHandler(service service.UrlService) *Handler {
 
 func (h *Handler) HandleGetUrl(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("HandleGetUrl", r)
-
-	products, err := h.service.GetUrl(r.Context(), "")
+	fmt.Println("INFO : HandleGetUrl", r)
+	v := mux.Vars(r)
+	uri := v["url"]
+	url, err := h.service.GetUrl(r.Context(), uri)
 	if err != nil {
 		log.Fatal("error", err)
+		errors.HandleError(w, err)
 		return
 	}
-	json.NewEncoder(w).Encode(products)
+	json.NewEncoder(w).Encode(url)
 
 }
 
@@ -42,14 +46,15 @@ func (h *Handler) HandleCreateUrl(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("unable to decode", err)
 	}
-	fmt.Println("HandleCreateUrl", r)
+	log.Println("INFO : HandleCreateUrl", r)
 
-	fmt.Println("1111111111111111111111111111111111111111111111111111111")
-	products, err := h.service.CreateUrl(r.Context(), req)
+	url, err := h.service.CreateUrl(r.Context(), req)
 	if err != nil {
 		log.Fatal("error", err)
+		errors.HandleError(w, err)
 		return
 	}
-	json.NewEncoder(w).Encode(products)
+
+	json.NewEncoder(w).Encode(url)
 
 }
