@@ -22,7 +22,7 @@ func registerAppRoutes(r *mux.Router) {
 	urlService := service.NewUrlService(urlRepo)
 	urlHandlers := handler.NewHandler(urlService)
 
-	r.HandleFunc("/urls", urlHandlers.HandleGetUrl).Methods(http.MethodGet)
+	//r.HandleFunc("/urls/{url}", urlHandlers.HandleGetUrl).Methods(http.MethodGet)
 	r.HandleFunc("/urls", urlHandlers.HandleCreateUrl).Methods(http.MethodPost)
 }
 
