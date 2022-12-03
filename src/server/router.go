@@ -4,6 +4,9 @@ import (
 	"net/http"
 
 	mux "github.com/gorilla/mux"
+	"github.com/kalpit-sharma-dev/url-shortner/src/handler"
+	"github.com/kalpit-sharma-dev/url-shortner/src/repository/db"
+	"github.com/kalpit-sharma-dev/url-shortner/src/service"
 )
 
 func LoadRoute() {
@@ -15,7 +18,12 @@ func LoadRoute() {
 }
 
 func registerAppRoutes(r *mux.Router) {
+	urlRepo := db.NewFileRepository(db.GetFileProvider())
+	urlService := service.NewUrlService(urlRepo)
+	urlHandlers := handler.NewHandler(urlService)
 
+	r.HandleFunc("/urls", urlHandlers.HandleGetUrl).Methods(http.MethodGet)
+	r.HandleFunc("/urls", urlHandlers.HandleCreateUrl).Methods(http.MethodPost)
 }
 
 func headerMiddleware(next http.Handler) http.Handler {
