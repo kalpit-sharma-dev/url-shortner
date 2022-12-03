@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/kalpit-sharma-dev/url-shortner/src/constants"
 	"github.com/kalpit-sharma-dev/url-shortner/src/model"
 	"github.com/kalpit-sharma-dev/url-shortner/src/repository"
 )
@@ -20,7 +21,7 @@ func (s *UrlServiceImpl) CreateUrl(ctx context.Context, urlReq model.Request) (u
 	if len(urlResp.Url) != 0 {
 		return
 	}
-	tinyUrl := randStringBytesRmndr(7)
+	tinyUrl := randStringBytesRmndr(constants.UrlEncodingNum, urlReq.Url)
 
 	urlResp, err = s.repository.CreateUrl(ctx, urlReq.Url, tinyUrl)
 	return urlResp, err
