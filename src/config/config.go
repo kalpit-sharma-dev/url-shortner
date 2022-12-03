@@ -14,5 +14,6 @@ func LoadDBConfig() error {
 	if FileName == "" {
 		return errors.New("mandatory configuration missing for File Name from Config")
 	}
+
 	return nil
 }
