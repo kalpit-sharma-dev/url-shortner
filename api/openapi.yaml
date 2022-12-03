@@ -1,0 +1,84 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger URL Shortner
+servers:
+  - url: http://url-shortner.swagger.io/v1
+paths:
+  /urls/{url}:
+    get:
+      summary: Get URL
+      operationId: listUrl
+      tags:
+        - urls
+      parameters:
+        - name: url
+          in: path
+          description: the url which needs to be shortened
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Get the desired urls
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/GetUrl"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /urls: 
+    post:
+      summary: Create a URL
+      operationId: createURL
+      tags:
+        - urls
+      requestBody: 
+        description: Url Create Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUrl'  
+      responses:
+        201:
+          description: Converted Url
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/GetUrl"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    GetUrl:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+        tinyUrl:
+          type: string
+    CreateUrl:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
