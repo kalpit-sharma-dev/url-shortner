@@ -45,16 +45,18 @@ func (h *Handler) HandleCreateUrl(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&req)
 	if err != nil {
 		log.Fatal("unable to decode", err)
+		return
 	}
 	log.Println("INFO : HandleCreateUrl", r)
 
 	url, err := h.service.CreateUrl(r.Context(), req)
 	if err != nil {
 		log.Fatal("error", err)
+		w.WriteHeader(http.StatusInternalServerError)
 		errors.HandleError(w, err)
 		return
 	}
-
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(url)
 
 }
