@@ -28,6 +28,7 @@ func (h *Handler) HandleGetUrl(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("INFO : HandleGetUrl", r)
 	v := mux.Vars(r)
 	uri := v["url"]
+
 	url, err := h.service.GetUrl(r.Context(), uri)
 	if err != nil {
 		log.Fatal("error", err)
